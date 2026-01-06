@@ -1,0 +1,269 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Martins Edegbe - Data Scientist</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="layout">
+      <!-- Left Sidebar - Profile -->
+      <aside class="sidebar">
+        <div class="sidebar-content">
+          <img
+            src="images/profilepic.jpg"
+            alt="Profile"
+            class="profile-image"
+          />
+
+          <div class="profile-info">
+            <h1>Martins Edegbe</h1>
+            <p class="subtitle">Data Scientist</p>
+            <p>Machine Learning | LLM | AI Agents | Business Intelligence | Data Analytics</p>
+          </div>
+
+          <nav class="navigation" aria-label="Primary">
+            <!-- Moving black bar indicator -->
+            <span class="nav-indicator" aria-hidden="true"></span>
+
+            <a href="#about" class="nav-link" data-section="about">About</a>
+            <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+            <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+            <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+          </nav>
+
+          <div class="contact-info">
+            <div class="contact-item">
+              <p class="contact-label">Email</p>
+              <a href="mailto:edegbemm@gmail.com" class="contact-link">edegbemm@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <p class="contact-label">Location</p>
+              <p class="contact-value">Ontario, Canada</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Content -->
+      <main class="main-content">
+        <!-- About Section -->
+        <section id="about" class="section">
+          <div class="text-content">
+            <h2>Hello!</h2>
+            <p>
+              I am a data scientist with over seven years of experience applying statistical modeling, machine learning,
+              and forecasting to solve complex business and operational problems.
+            </p>
+            <p>
+              I design and deploy agentic AI systems and retrieval augmented generation pipelines that combine large language models
+              with structured and unstructured data to support decision-making and automation. I build end-to-end solutions spanning
+              exploratory analysis, feature engineering, model deployment, monitoring, and reporting, with a strong focus on reliability
+              and business impact. I enjoy translating complex analytical outputs into clear, actionable insights that help cross-functional
+              teams operate more effectively.
+            </p>
+          </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+          <h2>Skills</h2>
+
+          <div class="skills-grid">
+            <div class="skill-card" style="--skill-bg: url('./images/skills/data-viz.jpg');">
+              <div class="skill-name">Data Analysis and Visualization</div>
+              <div class="skill-level">
+                <p>Microsoft Power BI</p>
+                <p>Microsoft Excel</p>
+                <p>Google Looker Studio</p>
+                <p>Amazon Quicksight</p>
+                <p>Tableau</p>
+              </div>
+            </div>
+
+            <div class="skill-card" style="--skill-bg: url('images/skills/programming.jpg');">
+              <div class="skill-name">Programming</div>
+              <div class="skill-level">
+                <p>Python</p>
+                <p>R</p>
+                <p>HTML</p>
+                <p>CSS</p>
+                <p>JavaScript</p>
+              </div>
+            </div>
+
+            <div class="skill-card" style="--skill-bg: url('images/skills/database.jpg');">
+              <div class="skill-name">Database</div>
+              <div class="skill-level">
+                <p>Amazon Redshift</p>
+                <p>Google BigQuery</p>
+                <p>MongoDB</p>
+                <p>Snowflake</p>
+                <p>Microsoft Access</p>
+              </div>
+            </div>
+
+            <div class="skill-card" style="--skill-bg: url('images/skills/machine-learning.jpg');">
+              <div class="skill-name">Machine Learning</div>
+              <div class="skill-level">
+                <p>Regression</p>
+                <p>Classification</p>
+                <p>Clustering</p>
+                <p>Time Series Forecasting</p>
+                <p>Anomaly Detection</p>
+              </div>
+            </div>
+
+            <div class="skill-card" style="--skill-bg: url('images/skills/agentic-ai.jpg');">
+              <div class="skill-name">Agentic AI</div>
+              <div class="skill-level">
+                <p>LangChain</p>
+                <p>LangGraph</p>
+                <p>AutoGen</p>
+                <p>CrewAI</p>
+                <p>Model Context Protocol (MCP)</p>
+              </div>
+            </div>
+
+            <div class="skill-card" style="--skill-bg: url('images/skills/cloud.jpg');">
+              <div class="skill-name">Cloud Technologies</div>
+              <div class="skill-level">
+                <p>Amazon Web Services</p>
+                <p>Google Cloud Platform</p>
+                <p>Microsoft Azure (Fabric)</p>
+                <p>CL/CD for ML Systems</p>
+                <p>Docker</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+          <h2>Projects</h2>
+
+          <div class="projects-list">
+            <!-- Project 1 (carousel for 6 images) -->
+            <div class="project-card">
+              <div class="project-carousel js-project-carousel" aria-label="Project 1 dashboard carousel">
+                <div class="proj-slide active">
+                  <img src="images/Projects/Dashboard1.png" alt="Dashboard 1" />
+                </div>
+                <div class="proj-slide">
+                  <img src="images/Projects/Dashboard2.png" alt="Dashboard 2" />
+                </div>
+                <div class="proj-slide">
+                  <img src="images/Projects/Dashboard3.png" alt="Dashboard 3" />
+                </div>
+                <div class="proj-slide">
+                  <img src="images/Projects/Dashboard4.png" alt="Dashboard 4" />
+                </div>
+                <div class="proj-slide">
+                  <img src="images/Projects/Dashboard5.png" alt="Dashboard 5" />
+                </div>
+                <div class="proj-slide">
+                  <img src="images/Projects/Dashboard6.png" alt="Dashboard 6" />
+                </div>
+
+                <button class="proj-btn prev" aria-label="Previous project image" type="button">‹</button>
+                <button class="proj-btn next" aria-label="Next project image" type="button">›</button>
+
+                <div class="proj-dots" aria-label="Project carousel dots">
+                  <span class="proj-dot active" data-slide="0" aria-label="Go to project image 1"></span>
+                  <span class="proj-dot" data-slide="1" aria-label="Go to project image 2"></span>
+                  <span class="proj-dot" data-slide="2" aria-label="Go to project image 3"></span>
+                  <span class="proj-dot" data-slide="3" aria-label="Go to project image 4"></span>
+                  <span class="proj-dot" data-slide="4" aria-label="Go to project image 5"></span>
+                  <span class="proj-dot" data-slide="5" aria-label="Go to project image 6"></span>
+                </div>
+              </div>
+
+              <div class="project-content">
+                <h3>Data Analytics</h3>
+                <p class="project-description">
+                  Built an end-to-end data analytics solution that unified customer data,
+                  engineered behavioral features, and applied clustering to segment customers
+                  into actionable groups. Delivered a dashboard-ready segmentation output with
+                  clear profiles, key drivers, and recommendations to improve targeting, retention,
+                  and personalized campaigns. Click
+                  <a target="_blank" href="https://github.com/HODMartins/Power-Bi-Dashboard.git" rel="noreferrer">here</a>
+                  to view my dashboards.
+                </p>
+              </div>
+            </div>
+
+            <!-- Project 2: Global Kitchen RAG Agent + embedded chat -->
+            <div class="project-card" id="rag-project">
+              <div class="project-content">
+                <h3>Global Kitchen Restaurant — Retrieval Augmented Generation (RAG) Agent</h3>
+
+                <p class="project-description">
+                  Built a retrieval augmented generation system that answers restaurant questions using grounded knowledge
+                  from menu and operational documents. The agent retrieves the most relevant context, then generates a
+                  concise, accurate response with guardrails. The solution supports customer
+                  questions like menu items, opening hours, dietary options, and service information.
+                </p>
+
+                <div class="tags">
+                  <span class="tag">Retrieval Augmented Generation</span>
+                  <span class="tag">Vector Search</span>
+                  <span class="tag">Large Language Models</span>
+                  <span class="tag">Application Programming Interface</span>
+                </div>
+
+                <!-- Embedded chat session -->
+                <div class="rag-chat" aria-label="Global Kitchen chat session">
+                  <div class="rag-chat-header">
+                    <div class="rag-chat-title">
+                      <strong>Chat with the restaurant agent</strong>
+                      <span class="rag-chat-subtitle">Ask about menu, hours, and more</span>
+                    </div>
+                    <button class="rag-chat-clear" type="button" aria-label="Clear chat">Clear</button>
+                  </div>
+
+                  <div class="rag-chat-body" id="ragChatBody" role="log" aria-live="polite">
+                    <div class="rag-chat-bubble bot">
+                      Hi! Ask me a question about Global Kitchen Restaurant (for example: “What is on the menu?”).
+                    </div>
+                  </div>
+
+                  <form class="rag-chat-input" id="ragChatForm">
+                    <input
+                      type="text"
+                      id="ragChatMessage"
+                      placeholder="Type your question..."
+                      autocomplete="off"
+                      aria-label="Type your question"
+                      required
+                    />
+                    <button type="submit" class="rag-chat-send" aria-label="Send question">Send</button>
+                  </form>
+
+                  <div class="rag-chat-footnote">
+                    <span class="rag-chat-status" id="ragChatStatus" aria-live="polite"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+          <h2>Get In Touch</h2>
+          <p class="contact-intro">
+            I am open to data science and data analytics opportunities. Please email me at
+            <a href="mailto:edegbemm@gmail.com">edegbemm@gmail.com</a>.
+          </p>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
