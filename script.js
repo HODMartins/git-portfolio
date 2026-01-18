@@ -111,11 +111,15 @@ function initCarousel(root, config) {
   }
 
   function show(index) {
-    slides.forEach((s) => s.classList.remove(config.activeSlideClass || "active"));
+    slides.forEach((s) =>
+      s.classList.remove(config.activeSlideClass || "active")
+    );
     slides[index].classList.add(config.activeSlideClass || "active");
 
     if (dots && dots.length) {
-      dots.forEach((d) => d.classList.remove(config.activeDotClass || "active"));
+      dots.forEach((d) =>
+        d.classList.remove(config.activeDotClass || "active")
+      );
       if (dots[index]) dots[index].classList.add(config.activeDotClass || "active");
     }
   }
@@ -174,7 +178,7 @@ document.querySelectorAll(".project-carousel").forEach((proj) => {
     activeSlideClass: "active",
     activeDotClass: "active",
     autoplayMs: 3500,
-    pauseOnHover: true
+    pauseOnHover: true,
   });
 });
 
@@ -184,7 +188,7 @@ document.querySelectorAll(".project-carousel").forEach((proj) => {
 
 // IMPORTANT: This must point to your deployed API domain
 const API_BASE = "https://api.hodmartins.com";
-const RAG_API_URL = `${API_BASE}/ask`;
+const RAG_API_URL = `${API_BASE}/ask-stream`; // ✅ streaming endpoint
 
 const ragChatForm = document.getElementById("ragChatForm");
 const ragChatMessage = document.getElementById("ragChatMessage");
@@ -200,7 +204,8 @@ function ragScrollToBottom() {
 function ragAddBubble(text, who, extraClass = "") {
   if (!ragChatBody) return null;
   const bubble = document.createElement("div");
-  bubble.className = `rag-chat-bubble ${who}` + (extraClass ? ` ${extraClass}` : "");
+  bubble.className =
+    `rag-chat-bubble ${who}` + (extraClass ? ` ${extraClass}` : "");
   bubble.textContent = text;
   ragChatBody.appendChild(bubble);
   ragScrollToBottom();
@@ -212,11 +217,18 @@ function setRagStatus(text) {
   ragChatStatus.textContent = text || "";
 }
 
-async function askRagAgent(question) {
+/**
+ * Robust SSE streaming fetch: updates UI as tokens arrive
+ * Handles \r\n, partial chunks, and multiple data: lines per event.
+ * @param {string} question
+ * @param {(liveText: string) => void} onToken
+ * @returns {Promise<string>} finalText
+ */
+async function askRagAgentStreaming(question, onToken) {
   const res = await fetch(RAG_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question })
+    body: JSON.stringify({ question }),
   });
 
   if (!res.ok) {
@@ -224,18 +236,51 @@ async function askRagAgent(question) {
     throw new Error(`Request failed (${res.status}). ${errText}`);
   }
 
-  const contentType = res.headers.get("content-type") || "";
-  if (contentType.includes("application/json")) {
-    const data = await res.json();
-    return (
-      data.answer ??
-      data.output ??
-      data.response ??
-      data.message ??
-      JSON.stringify(data)
-    );
+  if (!res.body) {
+    const txt = await res.text();
+    if (onToken) onToken(txt);
+    return txt;
   }
-  return await res.text();
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+
+  let buffer = "";
+  let fullText = "";
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+
+    // Normalize CRLF to LF for consistent parsing
+    buffer = buffer.replace(/\r\n/g, "\n");
+
+    // SSE events separated by blank line
+    const events = buffer.split("\n\n");
+    buffer = events.pop() || ""; // keep incomplete tail
+
+    for (const evt of events) {
+      const lines = evt.split("\n");
+
+      for (const line of lines) {
+        if (!line.startsWith("data:")) continue;
+
+        const token = line.replace(/^data:\s?/, "");
+
+        if (token === "[DONE]") return fullText;
+
+        if (token) {
+          fullText += token;
+          if (onToken) onToken(fullText);
+          ragScrollToBottom();
+        }
+      }
+    }
+  }
+
+  return fullText;
 }
 
 if (ragChatForm && ragChatMessage && ragChatBody) {
@@ -248,18 +293,27 @@ if (ragChatForm && ragChatMessage && ragChatBody) {
     ragAddBubble(text, "user");
     ragChatMessage.value = "";
 
-    const loadingBubble = ragAddBubble("Thinking...", "bot", "loading");
-    setRagStatus("Sending request to the agent...");
+    // This bubble becomes the live streaming bubble
+    const loadingBubble = ragAddBubble("Fetching response...", "bot", "loading");
+    setRagStatus("Fetching response from the agent...");
 
     ragChatMessage.disabled = true;
     const sendBtn = ragChatForm.querySelector("button[type='submit']");
     if (sendBtn) sendBtn.disabled = true;
 
     try {
-      const answer = await askRagAgent(text);
+      let finalText = "";
 
-      if (loadingBubble) loadingBubble.remove();
-      ragAddBubble(answer || "I did not receive a response. Please try again.", "bot");
+      finalText = await askRagAgentStreaming(text, (liveText) => {
+        if (loadingBubble) loadingBubble.textContent = liveText || "";
+      });
+
+      if (loadingBubble) {
+        loadingBubble.classList.remove("loading");
+        loadingBubble.textContent =
+          finalText || "I did not receive a response. Please try again.";
+      }
+
       setRagStatus("");
     } catch (err) {
       if (loadingBubble) loadingBubble.remove();
@@ -269,7 +323,9 @@ if (ragChatForm && ragChatMessage && ragChatBody) {
         "bot"
       );
 
-      setRagStatus("Network error. If your backend is on a different domain, you may need cross origin request settings.");
+      setRagStatus(
+        "Network error. If your backend is on a different domain, you may need cross origin request settings."
+      );
       console.error(err);
     } finally {
       ragChatMessage.disabled = false;
